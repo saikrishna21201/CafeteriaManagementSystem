@@ -1,0 +1,94 @@
+import time
+
+class CafeteriaSystem:
+    def _init_(self):
+        self.menu = {
+            'South Indian': {'Dosa': 40, 'Idli': 30, 'Vada': 25, 'Upma': 35},
+            'Chinese': {'Veg Fried Rice': 80, 'Chicken Fried Rice': 100, 'Manchuria': 70, 'Noodles': 75},
+            'Snacks': {'Samosa': 15, 'Puff': 20, 'French Fries': 50, 'Sandwich': 45},
+            'Biryani': {'Veg Biryani': 90, 'Chicken Biryani': 120, 'Egg Biryani': 100, 'Special Biryani': 150},
+            'Beverages': {'Tea': 15, 'Coffee': 20, 'Cold Coffee': 40, 'Lassi': 35},
+            'Ice Creams': {'Vanilla': 30, 'Chocolate': 35, 'Butterscotch': 40, 'Strawberry': 35}
+        }
+        self.order_id = 1000
+
+    def display_menu(self):
+        print("\n=== WELCOME TO PYTHON CAFETERIA ===")
+        for category, items in self.menu.items():
+            print(f"\n{category}:")
+            print("-" * 30)
+            for item, price in items.items():
+                print(f"{item:<20} ₹{price}")
+            print("-" * 30)
+
+    def take_order(self):
+        order = {}
+        total = 0
+        while True:
+            categories = list(self.menu.keys())
+            print("\nAvailable Categories:")
+            for i, category in enumerate(categories, 1):
+                print(f"{i}. {category}")
+            
+            try:
+                choice = int(input("\nSelect category number (0 to finish order): "))
+                if choice == 0:
+                    break
+                if 1 <= choice <= len(categories):
+                    selected_category = categories[choice - 1]
+                    print(f"\n{selected_category} Items:")
+                    items = list(self.menu[selected_category].items())
+                    for i, (item, price) in enumerate(items, 1):
+                        print(f"{i}. {item} - ₹{price}")
+                    item_choice = int(input("\nSelect item number: "))
+                    if 1 <= item_choice <= len(items):
+                        selected_item, price = items[item_choice - 1]
+                        quantity = int(input("Enter quantity: "))
+                        if selected_item in order:
+                            order[selected_item]['quantity'] += quantity
+                            order[selected_item]['subtotal'] += price * quantity
+                        else:
+                            order[selected_item] = {'price': price, 'quantity': quantity, 'subtotal': price * quantity}
+                        total += price * quantity
+                    else:
+                        print("Invalid item selection!")
+                else:
+                    print("Invalid category selection!")
+            except ValueError:
+                print("Please enter a valid number!")
+        return order, total
+
+    def process_order(self, order, total):
+        self.order_id += 1
+        print("\nProcessing your order", end="")
+        for _ in range(3):
+            time.sleep(0.5)
+            print(".", end="", flush=True)
+        print("\nOrder Ready!")
+        print(f"Order ID: {self.order_id}")
+        for item, details in order.items():
+            print(f"{item:<20} x{details['quantity']} - ₹{details['subtotal']}")
+        gst = total * 0.05
+        print(f"Total: ₹{total + gst:.2f}")
+
+def main():
+    cafe = CafeteriaSystem()
+    while True:
+        print("\n=== CAFETERIA SYSTEM ===")
+        print("1. View Menu")
+        print("2. Place Order")
+        print("3. Exit")
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            cafe.display_menu()
+        elif choice == '2':
+            cafe.display_menu()
+            order, total = cafe.take_order()
+            if order:
+                cafe.process_order(order, total)
+        elif choice == '3':
+            print("\nThank you!")
+            break
+
+if _name_ == "_main_":
+    main()
