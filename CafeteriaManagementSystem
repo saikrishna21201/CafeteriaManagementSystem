@@ -2,7 +2,7 @@ import time
 
 class CafeteriaSystem:
     def _init_(self):
-        self.menu = {
+        self.menu={
             'South Indian': {'Dosa': 40, 'Idli': 30, 'Vada': 25, 'Upma': 35},
             'Chinese': {'Veg Fried Rice': 80, 'Chicken Fried Rice': 100, 'Manchuria': 70, 'Noodles': 75},
             'Snacks': {'Samosa': 15, 'Puff': 20, 'French Fries': 50, 'Sandwich': 45},
