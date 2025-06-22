@@ -1,2 +1,2 @@
 # CafeteriaManagementSystem
-[output.jpg]
+![Output](output.jpg)
